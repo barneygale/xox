@@ -1,13 +1,13 @@
 import hashlib
 import os
+import shutil
 import sys
 import tempfile
 
 import pkg_resources
 
-import nox.virtualenv
-import nox.sessions
 import nox.command
+import nox.virtualenv
 
 
 def activate(*packages, python=None, silent=True):
@@ -30,15 +30,20 @@ def activate(*packages, python=None, silent=True):
         reuse_existing=True)
 
     if tempdir in os.environ['PATH']:
-        assert venv.bin in os.environ['PATH']
+        assert venv.bin in os.environ['PATH'], 'virtualenv already activated'
         return
 
-    if venv.create():
-        nox.command.run(
-            args=['python', '-m', 'pip', 'install'] + list(packages),
-            path=venv.bin,
-            env=venv.env,
-            silent=silent)
+    try:
+        if venv.create():
+            nox.command.run(
+                args=['python', '-m', 'pip', 'install'] + list(packages),
+                path=venv.bin,
+                env=venv.env,
+                silent=silent)
+    except:
+        if os.path.exists(venv.location):
+            shutil.rmtree(venv.location)
+        raise
 
     os.environ.update(venv.env)
     os.execvp('python', ['python'] + sys.argv)
