@@ -18,16 +18,34 @@ Use pip::
 Usage
 -----
 
-Before you import any other third-party modules, include code like::
+Before you import any other third-party modules, call ``xox.activate()``::
 
     import xox
 
-    xox.activate("lxml", "requests >= 1.0")
+    xox.activate("lxml", "requests>=1.0")
 
-This will create a temporary virtualenv, install packages, and call
-``os.exec()`` to replace the current process. Each virtualenv is stored in
-a subdirectory of system's temporary directory named ``'xox-virtualenvs'`` and
-re-used when requirements are met. No cleanup mechanism is provided - sorry!
+    import lxml
+    import requests
+
+This will create a virtualenv, install packages, and call ``os.exec()`` to
+replace the current process. You could also pass ``python='pythonX.Y'`` to
+specify a Python version, or ``silent=False`` to show output from ``pip``. The
+virtualenv will be re-used in subsequent runs.
+
+... And that's it! No custom executables or config files needed, just an extra
+header in your script.
+
+
+Notes
+-----
+
+Any code before your ``xox.activate()`` call will be run twice: once without
+and once within the virtualenv. Any code after your ``xox.activate()`` call
+will run within the virtualenv.
+
+Each virtualenv is stored in a subdirectory of system's temporary directory
+named ``'xox-virtualenvs'``. No cleanup mechanism is provided - sorry!
+
 
 .. _tox: https://tox.readthedocs.io
 .. _nox: https://nox.thea.codes
