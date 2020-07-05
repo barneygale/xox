@@ -22,8 +22,8 @@ def activate(*packages, python=None, silent=True):
     :param silent: Whether to suppress output from `pip`
     """
 
-    packages = [_requirement('box')] + list(packages)
-    tempdir = os.path.join(tempfile.gettempdir(), 'box-virtualenv')
+    packages = [_requirement('xox')] + list(packages)
+    tempdir = os.path.join(tempfile.gettempdir(), 'xox-virtualenv')
     venv = nox.virtualenv.VirtualEnv(
         location=os.path.join(tempdir, _sha1(python, *packages)),
         interpreter=python,

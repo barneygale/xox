@@ -1,4 +1,4 @@
-box: lightweight virtualenv orchestration
+xox: lightweight virtualenv orchestration
 =========================================
 
 This project helps provision virtualenvs and dependencies for your Python code.
@@ -12,7 +12,7 @@ Installation
 
 Use pip::
 
-    pip install --user box
+    pip install --user xox
 
 
 Usage
@@ -20,13 +20,13 @@ Usage
 
 Before you import any other third-party modules, include code like::
 
-    import box
+    import xox
 
-    box.activate("lxml", "requests >= 1.0")
+    xox.activate("lxml", "requests >= 1.0")
 
 This will create a temporary virtualenv, install packages, and call
 ``os.exec()`` to replace the current process. Each virtualenv is stored in
-a subdirectory of system's temporary directory named ``'box-virtualenvs'`` and
+a subdirectory of system's temporary directory named ``'xox-virtualenvs'`` and
 re-used when requirements are met. No cleanup mechanism is provided - sorry!
 
 .. _tox: https://tox.readthedocs.io
