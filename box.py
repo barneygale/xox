@@ -10,7 +10,7 @@ import nox.sessions
 import nox.command
 
 
-def requires(*packages, python=None, silent=True):
+def activate(*packages, python=None, silent=True):
     """
     Ensure we run in a virtualenv with the given packages installed.
 
@@ -23,16 +23,14 @@ def requires(*packages, python=None, silent=True):
     """
 
     packages = [_requirement('box')] + list(packages)
-
+    tempdir = os.path.join(tempfile.gettempdir(), 'box-virtualenv')
     venv = nox.virtualenv.VirtualEnv(
-        location=os.path.join(
-            tempfile.gettempdir(),
-            'box-virtualenv',
-            _sha1(python, *packages)),
+        location=os.path.join(tempdir, _sha1(python, *packages)),
         interpreter=python,
         reuse_existing=True)
 
-    if venv.bin in os.environ['PATH']:
+    if tempdir in os.environ['PATH']:
+        assert venv.bin in os.environ['PATH']
         return
 
     if venv.create():

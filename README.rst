@@ -22,12 +22,12 @@ Before you import any other third-party modules, include code like::
 
     import box
 
-    box.requires("lxml", "requests >= 1.0")
+    box.activate("lxml", "requests >= 1.0")
 
 This will create a temporary virtualenv, install packages, and call
 ``os.exec()`` to replace the current process. Each virtualenv is stored in
-the system's temporary directory and re-used when requirements are met. No
-cleanup mechanism is provided - sorry!
+a subdirectory of system's temporary directory named ``'box-virtualenvs'`` and
+re-used when requirements are met. No cleanup mechanism is provided - sorry!
 
 .. _tox: https://tox.readthedocs.io
 .. _nox: https://nox.thea.codes
